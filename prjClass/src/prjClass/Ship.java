@@ -110,6 +110,8 @@ public class Ship {
 		if (paraSpeed > 100) {
 			// Invalid
 			System.out.println("That's too fast! Max speed is 100.\n");
+			System.out.println("Setting the speed to default of 50...");
+			this.speed = 50;
 		} else {
 			this.speed = paraSpeed;
 		}
