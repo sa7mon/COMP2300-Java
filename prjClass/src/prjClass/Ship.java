@@ -14,9 +14,9 @@ public class Ship {
 	private float attack = 0.0f;
 	private float length = 0.0f;
 	private float width = 0.0f;
-	protected int speed = 0;
+	private int speed = 0;
 	private String nation = "";
-	private static int shipCount = 0;
+	protected static int shipCount = 0;
 	
 	// ===========CONSTRUCTOR METHODS============
 	public Ship () {
@@ -97,7 +97,7 @@ public class Ship {
 	
 	public void setWidth (float paraWidth) {
 		if (paraWidth > 20) {
-			System.out.println("That's too wide! The max width is 20\n");
+			System.out.println("That's too wide! The max width is 20");
 			System.out.println("Setting the width to default of 10\n");
 			this.width = 10;
 		} else {
@@ -106,11 +106,10 @@ public class Ship {
 	}
 
 	public void setSpeed (int paraSpeed) {
-		// We'll check the input even though main() can access it directly anyway.
 		if (paraSpeed > 100) {
 			// Invalid
-			System.out.println("That's too fast! Max speed is 100.\n");
-			System.out.println("Setting the speed to default of 50...");
+			System.out.println("That's too fast! Max speed is 100.");
+			System.out.println("Setting the speed to default of 50.\n");
 			this.speed = 50;
 		} else {
 			this.speed = paraSpeed;
