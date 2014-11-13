@@ -14,7 +14,7 @@ This project will allow you to demonstrate your expertise using the following SQ
 ##Specifications
 For this project you will be building a database to contain a collection of inventory items as part of an ERP (Enterprise Resource Planning) system.
 
-1. Visualize - Design the database schema holding the data. It should include at the minimum:
+###1. Visualize - Design the database schema holding the data. It should include at the minimum:
 + A unique key field that is auto-incrementing.
 + Description
 + Part number
@@ -24,7 +24,7 @@ For this project you will be building a database to contain a collection of inve
 
 This should be done using Excel to give your presentation a professional look and feel.
 
-2. Write a Java program that will allow all four CRUD operations.
+###2. Write a Java program that will allow all four CRUD operations.
 + Connect to a database.
 + Run SQL statements that do not return any data.
 + Run SQL statements that return a ResultSet with data.
@@ -35,7 +35,7 @@ This should be done using Excel to give your presentation a professional look an
 + Update a record in the database with new data
 + Delete a record from the database
 
-3. Use GIT to maintain a version control of your code.
+###3. Use GIT to maintain a version control of your code.
 
 
 
