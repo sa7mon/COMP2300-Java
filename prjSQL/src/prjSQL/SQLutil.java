@@ -133,36 +133,55 @@ public class SQLutil {
     	Connection conn = null;
     	
     	String sql = "CREATE TABLE " + tableName + " ( " +
-    				 "`key` int(10) NOT NULL, " +
+    				 "`id` int(10) NOT NULL, " +
     				 "`descr` varchar(500) NOT NULL, " + 
     				 "`partno` varchar(20) NOT NULL, " + 
     				 "`qty` int(10) NOT NULL, " + 
     				 "`cost` varchar(10) NOT NULL, " +
 					 "`price` varchar(10) NOT NULL ) "+ 
-    				 "ENGINE=InnoDB DEFAULT CHARSET=latin1;" +
-					 "ALTER TABLE `inventory` ADD PRIMARY KEY (`key`), " +
-    				 "ADD UNIQUE KEY `key` (`key`);" + 
-					 "ALTER TABLE `inventory` MODIFY `key` int(10) NOT NULL AUTO_INCREMENT;"; 
+    				 "ENGINE=InnoDB DEFAULT CHARSET=latin1;"; 
+    	String sql2 ="ALTER TABLE " + tableName + " ADD PRIMARY KEY (`id`), " +
+    				 "ADD UNIQUE KEY `key` (`id`);";
+    	String sql3 ="ALTER TABLE " + tableName + " MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;";
     	
     	// Make a connection to the SQL database
     	try {
     		conn = this.getConnection();
     	}
     	catch (SQLException e) {
-    		System.out.println("ERROR: Couldn't connect to the SQL database");
+    		System.out.println("ERROR: Couldn't connect to the SQL database\n");
     		e.printStackTrace();
     		return;
     	} // end try
     	
-    	// Create a table
-    	
+    	// Try to create the table
     	try {
-    		sql = "";
     		this.executeUpdate(conn,  sql);
     		System.out.println("Created table named: " + tableName);
     	}
     	catch(SQLException e) {
     		System.out.println("ERROR: Couldn't create the table named: " + tableName);
+    		e.printStackTrace();
+    		return;
+    	}
+    	
+    	//Try to make the key field unique
+    	try {
+    		this.executeUpdate(conn, sql2);
+    		System.out.println("Successfully added unique attribute to key field");
+    	}
+    	catch (SQLException e){
+    		System.out.println("ERROR: Couldn't set key field with unique attribute.");
+    		e.printStackTrace();
+    		return;
+    	}
+    	
+    	try{
+    		this.executeUpdate(conn, sql3);
+    		System.out.println("Successfully added AUTO_INCREMENT attribute to key field.");
+    	}
+    	catch (SQLException e) {
+    		System.out.println("ERROR: Couldn't set AUTO_INCREMENT attribute to key field.");
     		e.printStackTrace();
     		return;
     	}
