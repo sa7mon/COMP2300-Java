@@ -189,6 +189,36 @@ public class SQLutil {
     	finally {releaseResource(null,null,conn);}
     } // End of createTable()
     
-    
+    public void insertData(String [] rowArray, String thisTable) {
+    	Connection conn = null;
+    	String sql = "";
+    	
+    	try { //Try to connect to the database.
+    		conn = this.getConnection();
+    	} catch (SQLException e) {
+    		System.out.println("ERROR: Couldn't connect to the database. (insertData())");
+    		e.printStackTrace();
+    	}
+    	
+    	// Try to insert the data
+    	try {
+    		sql = "INSERT INTO `" + DB + "`.`" + thisTable + "` (`id`, `descr`, `partno`, `qty`, `cost`, `price`) "
+    				+ "VALUES (" 
+    				+ rowArray[0] + ","
+    				+ "'" + rowArray[1] + "',"
+    				+ "'" + rowArray[2] + "',"
+    				+ "'" + rowArray[3] + "',"
+    				+ "'" + rowArray[4] + "',"
+    				+ "'" + rowArray[5] + "');";
+    		this.executeUpdate(conn, sql);
+    		System.out.println("Inserted a record with hard-coded data.");
+    	} catch (SQLException e) {
+    		System.out.println("ERROR: Couldn't insert the data using hard-coded data.");
+    		e.printStackTrace();
+    	}
+    	
+    	finally { releaseResource(null,null,conn);}
+    	
+    } // End insertData()
     
 }// End public class
