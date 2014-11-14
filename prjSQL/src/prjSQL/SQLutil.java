@@ -19,7 +19,7 @@ public class SQLutil {
 	
 	/*---------------------CONSTANTS-----------------------*/
 	
-    private final static String DB = "javasql"; 
+    private final static String DB = "prjsql"; 
     private final static String TABLE = "customer";
     private final static String user = "root";
     private final static String pass = "root";
@@ -127,6 +127,49 @@ public class SQLutil {
           catch (SQLException e) { /* ignored */}
        }
     }
+    
+    
+    public void createTable(String tableName) {
+    	Connection conn = null;
+    	
+    	String sql = "CREATE TABLE " + tableName + " ( " +
+    				 "`key` int(10) NOT NULL, " +
+    				 "`descr` varchar(500) NOT NULL, " + 
+    				 "`partno` varchar(20) NOT NULL, " + 
+    				 "`qty` int(10) NOT NULL, " + 
+    				 "`cost` varchar(10) NOT NULL, " +
+					 "`price` varchar(10) NOT NULL ) "+ 
+    				 "ENGINE=InnoDB DEFAULT CHARSET=latin1;" +
+					 "ALTER TABLE `inventory` ADD PRIMARY KEY (`key`), " +
+    				 "ADD UNIQUE KEY `key` (`key`);" + 
+					 "ALTER TABLE `inventory` MODIFY `key` int(10) NOT NULL AUTO_INCREMENT;"; 
+    	
+    	// Make a connection to the SQL database
+    	try {
+    		conn = this.getConnection();
+    	}
+    	catch (SQLException e) {
+    		System.out.println("ERROR: Couldn't connect to the SQL database");
+    		e.printStackTrace();
+    		return;
+    	} // end try
+    	
+    	// Create a table
+    	
+    	try {
+    		sql = "";
+    		this.executeUpdate(conn,  sql);
+    		System.out.println("Created table named: " + tableName);
+    	}
+    	catch(SQLException e) {
+    		System.out.println("ERROR: Couldn't create the table named: " + tableName);
+    		e.printStackTrace();
+    		return;
+    	}
+    	// Release the resources
+    	finally {releaseResource(null,null,conn);}
+    } // End of createTable()
+    
     
     
 }// End public class
