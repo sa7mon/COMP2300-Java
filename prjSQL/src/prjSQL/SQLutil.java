@@ -128,13 +128,18 @@ public class SQLutil {
        }
     }
     
-    
+    /**
+     * createTable() - Creates a table after connecting to the db.
+     * 					Doesn't currently check for table's existence.
+     * @param tableName
+     */
     public void createTable(String tableName) {
     	Connection conn = null;
     	
     	String sql = "CREATE TABLE " + tableName + " ( " +
     				 "`id` int(10) NOT NULL, " +
     				 "`descr` varchar(500) NOT NULL, " + 
+    				 "`category` varchar(20) NOT NULL, " +
     				 "`partno` varchar(20) NOT NULL, " + 
     				 "`qty` int(10) NOT NULL, " + 
     				 "`cost` varchar(10) NOT NULL, " +
@@ -202,13 +207,14 @@ public class SQLutil {
     	
     	// Try to insert the data
     	try {
-    		sql = "INSERT INTO `" + DB + "`.`" + thisTable + "` (`id`, `descr`, `partno`, `qty`, `cost`, `price`) "
+    		sql = "INSERT INTO `" + DB + "`.`" + thisTable + "` (`id`, `descr`, `category`, `partno`, `qty`, `cost`, `price`) "
     				+ "VALUES (" 
     				+ rowArray[0] + ","
     				+ "'" + rowArray[1] + "',"
     				+ "'" + rowArray[2] + "',"
     				+ "'" + rowArray[3] + "',"
     				+ "'" + rowArray[4] + "',"
+    				+ "'" + rowArray[5] + "',"
     				+ "'" + rowArray[5] + "');";
     		this.executeUpdate(conn, sql);
     		System.out.println("Inserted a record with hard-coded data.");
@@ -220,5 +226,45 @@ public class SQLutil {
     	finally { releaseResource(null,null,conn);}
     	
     } // End insertData()
+
+    
+    public void showTable(String tableName) {
+    	String sql = "";
+    	Statement stmt = null;
+    	ResultSet rs = null;
+    	int id = 0;
+    	
+    	// Connect to the DB
+    	Connection conn = null;
+    	try {
+    		conn = this.getConnection();
+    	} catch (SQLException e) {
+    		System.out.println("ERROR: Couldn't connect to the db. (showTable)");
+    		e.printStackTrace();
+    	}
+    	
+    	// Run query
+    	try {
+    		sql="SELECT * FROM " + tableName;
+    		stmt = conn.createStatement();
+    		rs = stmt.executeQuery(sql);
+    		
+    		while (rs.next()) {
+    			System.out.println("################ ID: " + rs.getInt("id") + " #################");
+    			System.out.println("# Description: " + rs.getString("descr"));
+    			System.out.println("# Category:    " + rs.getString("category"));
+    			System.out.println("# Part No:     " + rs.getString("partno"));
+    			System.out.println("# Quantity:    " + rs.getInt("qty"));
+    			System.out.println("# Cost:        " + rs.getString("cost"));
+    			System.out.println("# Price:       " + rs.getString("price"));
+    			System.out.println("########################################");
+    		}
+    	} catch (SQLException e) {
+    		System.out.println("Error: SELECT error on sql: " + sql);
+    		e.printStackTrace();
+    	}
+    	finally {releaseResource(rs,stmt,conn); }
+    	
+    } //End showTable
     
 }// End public class
