@@ -227,7 +227,10 @@ public class SQLutil {
     	
     } // End insertData()
 
-    
+    /**
+     * showTable -  Outputs the result of a query to show all columns in all rows.
+     * @param tableName
+     */
     public void showTable(String tableName) {
     	String sql = "";
     	Statement stmt = null;
@@ -266,5 +269,51 @@ public class SQLutil {
     	finally {releaseResource(rs,stmt,conn); }
     	
     } //End showTable
+    
+    /**
+     * showCategory - Shows all records in a given category. 
+     * 				Category determined by last two of partNo.
+     * @param partNo
+     * @param tableName
+     */
+    public void showCategory (String partNo, String tableName) {
+    	String sql = "";
+    	Statement stmt = null;
+    	ResultSet rs = null;
+    	String category = "";
+    	//Get category from substring of partNo
+    	category = partNo.substring(partNo.length() -2);
+    	
+    	// Connect to the DB
+    	Connection conn = null;
+    	try {
+    		conn = this.getConnection();
+    	} catch (SQLException e) {
+    		System.out.println("ERROR: Couldn't connect to the db. (showCategory)");
+    		e.printStackTrace();
+    	}
+    	
+    	// Run query
+    	try {
+    		sql="SELECT * FROM " + tableName + " WHERE `category` = '" + category + "'";
+    		stmt = conn.createStatement();
+    		rs = stmt.executeQuery(sql);
+    		
+    		while (rs.next()) {
+    			System.out.println("################ ID: " + rs.getInt("id") + " #################");
+    			System.out.println("# Description: " + rs.getString("descr"));
+    			System.out.println("# Category:    " + rs.getString("category"));
+    			System.out.println("# Part No:     " + rs.getString("partno"));
+    			System.out.println("# Quantity:    " + rs.getInt("qty"));
+    			System.out.println("# Cost:        " + rs.getString("cost"));
+    			System.out.println("# Price:       " + rs.getString("price"));
+    			System.out.println("########################################");
+    		}
+    	} catch (SQLException e) {
+    		System.out.println("Error: SELECT error on sql: " + sql);
+    		e.printStackTrace();
+    	}
+    	finally {releaseResource(rs,stmt,conn); }
+    } //End showCategory()
     
 }// End public class

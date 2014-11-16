@@ -23,20 +23,15 @@ public class PrjSQLmain {
 		
 		SQLutil util = new SQLutil();
 		util.createTable("inventory2");
-		
-		String [] row1 = {"NULL","Ash Tree", "dc", "dc0003", "400","20","80"};
+		String [] row1 = {"NULL","Ash Tree", "dc", "0003dc", "400","20","80"};
 		util.insertData(row1, "inventory2");
-		
-		String [] row2 = {"NULL", "Oak Tree", "dc", "dc0002", "50", "65", "80"};
+		String [] row2 = {"NULL", "Oak Tree", "dc", "0002dc", "50", "65", "80"};
 		util.insertData(row2, "inventory2");
-		
-		String [] row3 = {"NULL", "Christmas Tree", "eg", "eg0001", "20", "50", "100"};
+		String [] row3 = {"NULL", "Christmas Tree", "eg", "0001eg", "20", "50", "100"};
 		util.insertData(row3, "inventory2");
-		
-		String [] row4 = {"NULL", "Balsam Fir", "eg", "eg0002", "45", "10", "30"};
+		String [] row4 = {"NULL", "Balsam Fir", "eg", "0002eg", "45", "10", "30"};
 		util.insertData(row4, "inventory2");
-		
 		util.showTable("inventory2");
+		util.showCategory("0002dc", "inventory2");
 	}
-
 }
