@@ -31,8 +31,18 @@ public class PrjSQLmain {
 		util.insertData(row3, "inventory2");
 		String [] row4 = {"NULL", "Balsam Fir", "eg", "0002eg", "45", "10", "30"};
 		util.insertData(row4, "inventory2");
+		String [] row5 = {"NULL","Willow Tree","dc","0001dc","50", "30", "60"};
+		util.insertData(row5, "inventory2");
+		String [] row6 = {"NULL", "Maple Tree", "dc", "0004dc","10","45","90"};
+		util.insertData(row6, "inventory2");
+		String [] row7 = {"NULL", "Black Hill Spruce", "eg", "0003eg", "15", "90","180"};
+		util.insertData(row7, "inventory2");
+		String [] row8 = {"NULL", "Colorado Spruce", "eg", "0004eg", "12","30","60" };
+		util.insertData(row8, "inventory2");
+		
 		util.showTable("inventory2");
 		util.showCategory("0002dc", "inventory2");
 		util.updateRecord("inventory2");
+		util.deleteRecord("2", "inventory2");
 	}
 }
