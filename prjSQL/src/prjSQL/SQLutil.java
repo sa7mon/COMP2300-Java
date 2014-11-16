@@ -32,7 +32,7 @@ public class SQLutil {
      */
     public SQLutil() { }
     
-    /*-----------------CRUD FUNCTIONS-----------------------*/
+    /*-------------------------------RESUSABLE FUNCTIONS--------------------------------------*/
 
 	/**
 	 * getConnection - Connects to the database.
@@ -128,6 +128,10 @@ public class SQLutil {
        }
     }
     
+    
+    /* ------------------------ CUSTOM FUNCTIONS ---------------------------------------*/
+    
+    
     /**
      * createTable() - Creates a table after connecting to the db.
      * 					Doesn't currently check for table's existence.
@@ -194,6 +198,12 @@ public class SQLutil {
     	finally {releaseResource(null,null,conn);}
     } // End of createTable()
     
+    /**
+     * insertData() - Creates a new record with data passed from array of data.
+     * 
+     * @param rowArray - Array of data insert into the record.
+     * @param thisTable - Defines which table to add records into.
+     */
     public void insertData(String [] rowArray, String thisTable) {
     	Connection conn = null;
     	String sql = "";
@@ -315,5 +325,41 @@ public class SQLutil {
     	}
     	finally {releaseResource(rs,stmt,conn); }
     } //End showCategory()
+    
+    /**
+     * updateRecord() - Changes the data of an existing record.
+     * 
+     * @param tableName
+     */
+    public void updateRecord (String tableName) {
+    	Connection conn = null;
+    	String sql = "";
+    	
+    	//Try to connect to the database.
+    	try { 
+    		conn = this.getConnection();
+    	} catch (SQLException e) {
+    		System.out.println("ERROR: Couldn't connect to the database. (updateRecord() )");
+    		e.printStackTrace();
+    	}
+    	// Try to insert the data
+    	try {
+    		// UPDATE `prjsql`.`inventory2` SET `cost` = '200' WHERE `inventory2`.`id` = 1;
+    		sql = "UPDATE " + tableName + " SET `cost` = '200' WHERE `" + tableName + "`.`id` = 1";
+    		this.executeUpdate(conn, sql);
+    		System.out.println("Changed cost of record #1.");
+    	} catch (SQLException e) {
+    		System.out.println("ERROR: Couldn't insert the data using hard-coded data.");
+    		e.printStackTrace();
+    	}
+    	finally { releaseResource(null,null,conn);}
+    } // End updateRecord() 
+    
+    public void deleteRecord (String id) {
+    	
+    	
+    	
+    	
+    }
     
 }// End public class

@@ -33,5 +33,6 @@ public class PrjSQLmain {
 		util.insertData(row4, "inventory2");
 		util.showTable("inventory2");
 		util.showCategory("0002dc", "inventory2");
+		util.updateRecord("inventory2");
 	}
 }
