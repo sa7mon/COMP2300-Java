@@ -44,5 +44,6 @@ public class PrjSQLmain {
 		util.showCategory("0002dc", "inventory2");
 		util.updateRecord("inventory2");
 		util.deleteRecord("2", "inventory2");
+		util.showAllByCategory("inventory2");
 	}
 }

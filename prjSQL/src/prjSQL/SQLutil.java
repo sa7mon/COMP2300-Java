@@ -227,7 +227,7 @@ public class SQLutil {
     				+ "'" + rowArray[5] + "',"
     				+ "'" + rowArray[5] + "');";
     		this.executeUpdate(conn, sql);
-    		System.out.println("Inserted a record with hard-coded data.");
+    		System.out.println("Inserted a record.");
     	} catch (SQLException e) {
     		System.out.println("ERROR: Couldn't insert the data using hard-coded data.");
     		e.printStackTrace();
@@ -262,6 +262,7 @@ public class SQLutil {
     		stmt = conn.createStatement();
     		rs = stmt.executeQuery(sql);
     		
+    		System.out.println("------------------------ Showing all records from table ----------------------------");
     		while (rs.next()) {
     			System.out.println("################ ID: " + rs.getInt("id") + " #################");
     			System.out.println("# Description: " + rs.getString("descr"));
@@ -302,13 +303,13 @@ public class SQLutil {
     		System.out.println("ERROR: Couldn't connect to the db. (showCategory)");
     		e.printStackTrace();
     	}
-    	
     	// Run query
     	try {
     		sql="SELECT * FROM " + tableName + " WHERE `category` = '" + category + "'";
     		stmt = conn.createStatement();
     		rs = stmt.executeQuery(sql);
     		
+    		System.out.println("------------------------- Showing all records from category `dc` --------------------------");
     		while (rs.next()) {
     			System.out.println("################ ID: " + rs.getInt("id") + " #################");
     			System.out.println("# Description: " + rs.getString("descr"));
@@ -354,12 +355,74 @@ public class SQLutil {
     	}
     	finally { releaseResource(null,null,conn);}
     } // End updateRecord() 
-    
-    public void deleteRecord (String id) {
+
+    /**
+     * deleteRecord - Deletes a record based on ID.
+     * 
+     * @param id - ID of record to delete.
+     * @param tableName - Table to delete record from.
+     */
+    public void deleteRecord (String id, String tableName) {
+    	Connection conn = null;
+    	String sql = "";
     	
+    	//Try to connect to the database.
+    	try { 
+    		conn = this.getConnection();
+    	} catch (SQLException e) {
+    		System.out.println("ERROR: Couldn't connect to the database. (deleteRecord() )");
+    		e.printStackTrace();
+    	}
+    	// Try to delete the record by id
+    	try {    		
+    		sql = "DELETE FROM " + tableName + " WHERE id = " + id;
+    		this.executeUpdate(conn, sql);
+    		System.out.println("Deleted record #" + id);
+    	} catch (SQLException e) {
+    		System.out.println("ERROR: Couldn't delete the record.");
+    		e.printStackTrace();
+    	}
+    	finally { releaseResource(null,null,conn);}	
+    } // End deleteRecord()
+
+    /**
+     * showAllByCategory - Displays all record, sorted by category: ascending.
+     * @param tableName
+     */
+    public void showAllByCategory (String tableName) {
+    	String sql = "";
+    	Statement stmt = null;
+    	ResultSet rs = null;
     	
-    	
-    	
+    	// Connect to the DB
+    	Connection conn = null;
+    	try {
+    		conn = this.getConnection();
+    	} catch (SQLException e) {
+    		System.out.println("ERROR: Couldn't connect to the db. (showAllByCategory() )");
+    		e.printStackTrace();
+    	}
+    	// Run query
+    	try {
+    		sql="SELECT * FROM `" + tableName + "` ORDER BY `" + tableName + "`.`category` ASC";
+    		stmt = conn.createStatement();
+    		rs = stmt.executeQuery(sql);
+    		
+    		System.out.println("--------- Diplaying all records sorted by category -----------");
+    		while (rs.next()) {
+    			System.out.println("################ ID: " + rs.getInt("id") + " #################");
+    			System.out.println("# Description: " + rs.getString("descr"));
+    			System.out.println("# Category:    " + rs.getString("category"));
+    			System.out.println("# Part No:     " + rs.getString("partno"));
+    			System.out.println("# Quantity:    " + rs.getInt("qty"));
+    			System.out.println("# Cost:        " + rs.getString("cost"));
+    			System.out.println("# Price:       " + rs.getString("price"));
+    			System.out.println("########################################");
+    			}
+    	} catch (SQLException e) {
+    		System.out.println("Error: SELECT error on sql: " + sql);
+    		e.printStackTrace();
+    	}
+    	finally {releaseResource(rs,stmt,conn); }
     }
-    
 }// End public class
