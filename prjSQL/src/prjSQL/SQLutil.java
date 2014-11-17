@@ -1,5 +1,5 @@
-
 package prjSQL;
+
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
@@ -9,30 +9,31 @@ import java.sql.Statement;
 import java.util.Properties;
 
 
-
 public class SQLutil {
-	/* SQLUtil - The class that will hold all of our useful functions for connecting to SQL
+	/**
+	 * SQLUtil - The class that will hold all of our useful functions for connecting to SQL
 	 * 
-	 * Referenced libs: mysql-connector-java-5.1.33-bin.jar
+	 * Referenced Libraries: mysql-connector-java-5.1.33-bin.jar
+	 * Download: https://dev.mysql.com/downloads/file.php?id=454396 (tar.gz 3.5M)
 	 * 
 	 */
 	
 	/*---------------------CONSTANTS-----------------------*/
 	
     private final static String DB = "prjsql"; 
-    private final static String TABLE = "customer";
+    private final static String TABLE = "inventory2";
     private final static String user = "root";
     private final static String pass = "root";
     private final static String mySqlServer = "localhost";
     private final static int portNumber = 3306; /* MAMP set to 3306*/
     
-    /*-------------------CONSTRUCTORS-----------------------*/
+    /*-------------------------------------CONSTRUCTORS------------------------------------------------*/
     /**
      * Default constructor
      */
     public SQLutil() { }
     
-    /*-------------------------------RESUSABLE FUNCTIONS--------------------------------------*/
+    /*-----------------------------------RESUSABLE FUNCTIONS--------------------------------------*/
 
 	/**
 	 * getConnection - Connects to the database.
@@ -105,7 +106,7 @@ public class SQLutil {
     /**
      * releaseResource( ) - Free up the system resources that were opened.
      *                      If not used,  a null will be passed in for that parameter.
-     * @param rs - Resultset
+     * @param rs - ResultSet
      * @param ps - Statement
      * @param conn - Connection
      */
@@ -129,7 +130,7 @@ public class SQLutil {
     }
     
     
-    /* ------------------------ CUSTOM FUNCTIONS ---------------------------------------*/
+    /* ------------------------------------ CUSTOM FUNCTIONS ---------------------------------------*/
     
     
     /**
@@ -137,10 +138,10 @@ public class SQLutil {
      * 					Doesn't currently check for table's existence.
      * @param tableName
      */
-    public void createTable(String tableName) {
+    public void createTable() {
     	Connection conn = null;
     	
-    	String sql = "CREATE TABLE " + tableName + " ( " +
+    	String sql = "CREATE TABLE " + TABLE + " ( " +
     				 "`id` int(10) NOT NULL, " +
     				 "`descr` varchar(500) NOT NULL, " + 
     				 "`category` varchar(20) NOT NULL, " +
@@ -149,9 +150,9 @@ public class SQLutil {
     				 "`cost` varchar(10) NOT NULL, " +
 					 "`price` varchar(10) NOT NULL ) "+ 
     				 "ENGINE=InnoDB DEFAULT CHARSET=latin1;"; 
-    	String sql2 ="ALTER TABLE " + tableName + " ADD PRIMARY KEY (`id`), " +
+    	String sql2 ="ALTER TABLE " + TABLE + " ADD PRIMARY KEY (`id`), " +
     				 "ADD UNIQUE KEY `key` (`id`);";
-    	String sql3 ="ALTER TABLE " + tableName + " MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;";
+    	String sql3 ="ALTER TABLE " + TABLE + " MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;";
     	
     	// Make a connection to the SQL database
     	try {
@@ -166,10 +167,10 @@ public class SQLutil {
     	// Try to create the table
     	try {
     		this.executeUpdate(conn,  sql);
-    		System.out.println("Created table named: " + tableName);
+    		System.out.println("Created table named: " + TABLE);
     	}
     	catch(SQLException e) {
-    		System.out.println("ERROR: Couldn't create the table named: " + tableName);
+    		System.out.println("ERROR: Couldn't create the table named: " + TABLE);
     		e.printStackTrace();
     		return;
     	}
@@ -204,7 +205,7 @@ public class SQLutil {
      * @param rowArray - Array of data insert into the record.
      * @param thisTable - Defines which table to add records into.
      */
-    public void insertData(String [] rowArray, String thisTable) {
+    public void insertData(String [] rowArray) {
     	Connection conn = null;
     	String sql = "";
     	
@@ -217,7 +218,7 @@ public class SQLutil {
     	
     	// Try to insert the data
     	try {
-    		sql = "INSERT INTO `" + DB + "`.`" + thisTable + "` (`id`, `descr`, `category`, `partno`, `qty`, `cost`, `price`) "
+    		sql = "INSERT INTO `" + DB + "`.`" + TABLE + "` (`id`, `descr`, `category`, `partno`, `qty`, `cost`, `price`) "
     				+ "VALUES (" 
     				+ rowArray[0] + ","
     				+ "'" + rowArray[1] + "',"
@@ -229,11 +230,12 @@ public class SQLutil {
     		this.executeUpdate(conn, sql);
     		System.out.println("Inserted a record.");
     	} catch (SQLException e) {
-    		System.out.println("ERROR: Couldn't insert the data using hard-coded data.");
+    		System.out.println("ERROR: Couldn't insert the data.");
     		e.printStackTrace();
     	}
-    	
-    	finally { releaseResource(null,null,conn);}
+    	finally { 
+    		releaseResource(null,null,conn);
+    	}
     	
     } // End insertData()
 
@@ -241,7 +243,7 @@ public class SQLutil {
      * showTable -  Outputs the result of a query to show all columns in all rows.
      * @param tableName
      */
-    public void showTable(String tableName) {
+    public void showTable() {
     	String sql = "";
     	Statement stmt = null;
     	ResultSet rs = null;
@@ -255,10 +257,9 @@ public class SQLutil {
     		System.out.println("ERROR: Couldn't connect to the db. (showTable)");
     		e.printStackTrace();
     	}
-    	
     	// Run query
     	try {
-    		sql="SELECT * FROM " + tableName;
+    		sql="SELECT * FROM " + TABLE;
     		stmt = conn.createStatement();
     		rs = stmt.executeQuery(sql);
     		
@@ -277,7 +278,9 @@ public class SQLutil {
     		System.out.println("Error: SELECT error on sql: " + sql);
     		e.printStackTrace();
     	}
-    	finally {releaseResource(rs,stmt,conn); }
+    	finally {
+    		releaseResource(rs,stmt,conn); 
+    	}
     	
     } //End showTable
     
@@ -287,7 +290,7 @@ public class SQLutil {
      * @param partNo
      * @param tableName
      */
-    public void showCategory (String partNo, String tableName) {
+    public void showCategory (String partNo) {
     	String sql = "";
     	Statement stmt = null;
     	ResultSet rs = null;
@@ -305,7 +308,7 @@ public class SQLutil {
     	}
     	// Run query
     	try {
-    		sql="SELECT * FROM " + tableName + " WHERE `category` = '" + category + "'";
+    		sql="SELECT * FROM " + TABLE + " WHERE `category` = '" + category + "'";
     		stmt = conn.createStatement();
     		rs = stmt.executeQuery(sql);
     		
@@ -324,7 +327,9 @@ public class SQLutil {
     		System.out.println("Error: SELECT error on sql: " + sql);
     		e.printStackTrace();
     	}
-    	finally {releaseResource(rs,stmt,conn); }
+    	finally {
+    		releaseResource(rs,stmt,conn); 
+    	}
     } //End showCategory()
     
     /**
@@ -332,7 +337,7 @@ public class SQLutil {
      * 
      * @param tableName
      */
-    public void updateRecord (String tableName) {
+    public void updateRecord () {
     	Connection conn = null;
     	String sql = "";
     	
@@ -345,8 +350,7 @@ public class SQLutil {
     	}
     	// Try to insert the data
     	try {
-    		// UPDATE `prjsql`.`inventory2` SET `cost` = '200' WHERE `inventory2`.`id` = 1;
-    		sql = "UPDATE " + tableName + " SET `cost` = '200' WHERE `" + tableName + "`.`id` = 1";
+    		sql = "UPDATE " + TABLE + " SET `cost` = '200' WHERE `" + TABLE + "`.`id` = 1";
     		this.executeUpdate(conn, sql);
     		System.out.println("Changed cost of record #1.");
     	} catch (SQLException e) {
@@ -362,7 +366,7 @@ public class SQLutil {
      * @param id - ID of record to delete.
      * @param tableName - Table to delete record from.
      */
-    public void deleteRecord (String id, String tableName) {
+    public void deleteRecord (String id) {
     	Connection conn = null;
     	String sql = "";
     	
@@ -375,7 +379,7 @@ public class SQLutil {
     	}
     	// Try to delete the record by id
     	try {    		
-    		sql = "DELETE FROM " + tableName + " WHERE id = " + id;
+    		sql = "DELETE FROM " + TABLE + " WHERE id = " + id;
     		this.executeUpdate(conn, sql);
     		System.out.println("Deleted record #" + id);
     	} catch (SQLException e) {
@@ -389,7 +393,7 @@ public class SQLutil {
      * showAllByCategory - Displays all record, sorted by category: ascending.
      * @param tableName
      */
-    public void showAllByCategory (String tableName) {
+    public void showAllByCategory () {
     	String sql = "";
     	Statement stmt = null;
     	ResultSet rs = null;
@@ -404,11 +408,11 @@ public class SQLutil {
     	}
     	// Run query
     	try {
-    		sql="SELECT * FROM `" + tableName + "` ORDER BY `" + tableName + "`.`category` ASC";
+    		sql="SELECT * FROM `" + TABLE + "` ORDER BY `" + TABLE + "`.`category` ASC";
     		stmt = conn.createStatement();
     		rs = stmt.executeQuery(sql);
     		
-    		System.out.println("--------- Diplaying all records sorted by category -----------");
+    		System.out.println("--------------------- Diplaying all records sorted by category -----------------------");
     		while (rs.next()) {
     			System.out.println("################ ID: " + rs.getInt("id") + " #################");
     			System.out.println("# Description: " + rs.getString("descr"));
