@@ -1,12 +1,8 @@
 package com.example.products;
 
 import java.io.IOException;
-
-import view.ShowEmployeeController;
-
+import com.example.products.ShowProductsController;
 import com.example.model.Product;
-
-import employee.mainApp;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -49,7 +45,7 @@ public class MainApp extends Application {
       try {
          // Load layout from .fxml file
          FXMLLoader loader = new FXMLLoader();
-         loader.setLocation(MainApp.class.getResource("/view/ProductsOverview.fxml"));
+         loader.setLocation(MainApp.class.getResource("/com/example/view/ProductsOverview.fxml"));
          rootLayout = (AnchorPane) loader.load();
          
          //Give controller access to the main app
@@ -71,7 +67,7 @@ public class MainApp extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 	   this.primaryStage = primaryStage;
-      this.primaryStage.setTitle("My Title");
+      this.primaryStage.setTitle("The Garden Store");
       initRootLayout();
 	}
 
