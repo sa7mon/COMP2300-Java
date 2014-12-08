@@ -1,19 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="350.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.products.ShowProductsController">
+<AnchorPane prefHeight="350.0" prefWidth="800.0" stylesheets="@office.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.products.ShowProductsController">
    <children>
       <TableView fx:id="productsTable" layoutX="132.0" prefHeight="350.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columns>
-          <TableColumn fx:id="productNameColumn" prefWidth="200.0" text="Product" />
-          <TableColumn fx:id="quantityColumn" prefWidth="71.0" text="Quantity" />
+          <TableColumn fx:id="productNameColumn" prefWidth="130.0" text="Product" />
+          <TableColumn fx:id="quantityColumn" prefWidth="141.0" text="Quantity" />
             <TableColumn fx:id="priceColumn" prefWidth="97.0" text="Price" />
             <TableColumn fx:id="descriptionColumn" prefWidth="284.0" text="Description" />
         </columns>
+         <padding>
+            <Insets top="26.0" />
+         </padding>
       </TableView>
+      <MenuBar prefHeight="26.0" prefWidth="800.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
    </children>
 </AnchorPane>

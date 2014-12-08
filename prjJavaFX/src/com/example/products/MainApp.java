@@ -15,6 +15,8 @@ import javafx.stage.Stage;
  * 
  * Includes all of the calls to everything that compiles the program.
  * 
+ * Project includes source from other people:
+ * https://github.com/farrukh-obaid/javafx-skins/tree/master/src/MistSilver
  */
 public class MainApp extends Application {
    
